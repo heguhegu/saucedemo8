@@ -21,60 +21,62 @@ public class Login {
         WebDriverManager.chromedriver().setup();
         driver=new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get(baseurl);
         //Assertion
         String loginPageAssert = driver.findElement(By.className("login_logo")).getText();
         Assert.assertEquals(loginPageAssert, "Swag Labs");
-        throw new io.cucumber.java.PendingException();
+        //throw new io.cucumber.java.PendingException();
     }
 
     @When("Input standar user")
-    public void inputStandarUser() {
+    public void input_standar_user() {
         driver.findElement(By.id("user-name")).sendKeys("standard_user");
     }
 
     @And("Input valid password")
-    public void inputValidPassword() {
+    public void input_valid_password() {
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
     }
 
     @And("Click login button")
-    public void clickLoginButton() {
+    public void click_login_button() {
         driver.findElement(By.id("login-button")).click();
     }
 
     @Then("User in on dashboard page")
-    public void userInOnDashboardPage() {
+    public void user_in_on_dashboard_page() {
         String dashboardPageAssert = driver.findElement(By.className("title")).getText();
         Assert.assertEquals(dashboardPageAssert, "Products");
         driver.close();
     }
 
     @When("Input invalid username")
-    public void inputInvalidUsername() {
+    public void input_invalid_username() {
         driver.findElement(By.id("user-name")).sendKeys("standard_user00");
     }
 
     @Then("User get error login message")
-    public void userGetErrorLoginMessage() {
+    public void user_get_error_login_message() {
         String errorLogin = driver.findElement(By.xpath("//div[@class='error-message-container error']")).getText();
         Assert.assertEquals(errorLogin, "Epic sadface: Username and password do not match any user in this service");
+        driver.close();
     }
 
     @And("Input invalid password")
-    public void inputInvalidPassword() {
+    public void input_invalid_password() {
         driver.findElement(By.id("password")).sendKeys("secret_sauce00");
     }
 
     @When("Input locked out user")
-    public void inputLockedOutUser() {
+    public void input_locked_out_user() {
         driver.findElement(By.id("user-name")).sendKeys("locked_out_user");
     }
 
     @Then("User get locked error message")
-    public void userGetLockedErrorMessage() {
+    public void user_get_locked_error_message() {
         String errorLogin = driver.findElement(By.xpath("//div[@class='error-message-container error']")).getText();
         Assert.assertEquals(errorLogin, "Epic sadface: Sorry, this user has been locked out.");
+        driver.close();
     }
 }
